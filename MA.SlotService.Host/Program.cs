@@ -1,3 +1,8 @@
+using MA.SlotService.Api.Endpoints;
+using MA.SlotService.Application;
+using MA.SlotService.Infrastructure.DataAccess.Redis;
+using MA.SlotService.Infrastructure.Randomization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddApplicationServices()
+    .AddDataAccessServices(builder.Configuration)
+    .AddRandomizationServices();
+
 var app = builder.Build();
+
+app.MapSlotEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -18,4 +18,11 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\MA.SlotService.Api\MA.SlotService.Api.csproj" />
+      <ProjectReference Include="..\MA.SlotService.Application\MA.SlotService.Application.csproj" />
+      <ProjectReference Include="..\MA.SlotService.Infrastructure.DataAccess.Redis\MA.SlotService.Infrastructure.DataAccess.Redis.csproj" />
+      <ProjectReference Include="..\MA.SlotService.Infrastructure.Randomization\MA.SlotService.Infrastructure.Randomization.csproj" />
+    </ItemGroup>
+
 </Project>
