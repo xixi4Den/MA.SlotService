@@ -6,13 +6,13 @@ public class SpinResultGenerator: ISpinResultGenerator
 {
     private readonly Random _random = new();
 
-    public byte[] Generate()
+    public int[] Generate()
     {
-        var result = new byte[3];
+        var result = new int[3];
 
         for (var i = 0; i < result.Length; i++)
         {
-            result[i] = (byte) _random.Next(0, 10);
+            result[i] = _random.Next(0, 10);
         }
 
         return result;

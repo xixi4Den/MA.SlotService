@@ -1,6 +1,7 @@
 using FluentAssertions;
 using MA.SlotService.Application.Abstractions;
 using MA.SlotService.Application.Features.StartSpin;
+using MA.SlotService.Contracts;
 using Moq;
 
 namespace MA.SlotService.Application.Tests;
@@ -12,6 +13,7 @@ public class StartSpinCommandHandlerTests
     
     private Mock<ISpinResultGenerator> _spinResultGeneratorMock;
     private Mock<ISpinsBalanceRepository> _spinsBalanceRepositoryMock;
+    private Mock<IEventPublisher> _eventPublisherMock;
     private StartSpinCommand _command = new(666);
 
     [TestInitialize]
@@ -19,7 +21,8 @@ public class StartSpinCommandHandlerTests
     {
         _spinResultGeneratorMock = new Mock<ISpinResultGenerator>();
         _spinsBalanceRepositoryMock = new Mock<ISpinsBalanceRepository>();
-        _subject = new StartSpinCommandHandler(_spinResultGeneratorMock.Object, _spinsBalanceRepositoryMock.Object);
+        _eventPublisherMock = new Mock<IEventPublisher>();
+        _subject = new StartSpinCommandHandler(_spinResultGeneratorMock.Object, _spinsBalanceRepositoryMock.Object, _eventPublisherMock.Object);
 
         MockResultGenerator([7, 7, 7]);
     }
@@ -34,6 +37,16 @@ public class StartSpinCommandHandlerTests
         result.IsSuccessful.Should().BeFalse();
         result.Error.Should().Be("Insufficient balance");
         result.Data.Should().BeNull();
+    }
+    
+    [TestMethod]
+    public async Task InsufficientBalance_ShouldNotPublishEvent()
+    {
+        SetupDeductionResult(new SpinsBalanceDeductionResult(false, 0));
+        
+        await _subject.Handle(_command, CancellationToken.None);
+
+        _eventPublisherMock.Verify(x => x.PublishAsync(It.IsAny<SpinProcessedEvent>(), It.IsAny<CancellationToken>()), Times.Never);
     }
     
     [TestMethod]
@@ -65,6 +78,16 @@ public class StartSpinCommandHandlerTests
         
         result.Balance.Should().Be(11);
     }
+    
+    [TestMethod]
+    public async Task SufficientBalance_ShouldPublishEvent()
+    {
+        SetupDeductionResult(new SpinsBalanceDeductionResult(true, 11));
+        
+        await _subject.Handle(_command, CancellationToken.None);
+        
+        _eventPublisherMock.Verify(x => x.PublishAsync(It.IsAny<SpinProcessedEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
 
     private void SetupDeductionResult(SpinsBalanceDeductionResult deductionResult)
     {
@@ -72,7 +95,7 @@ public class StartSpinCommandHandlerTests
             .ReturnsAsync(deductionResult);
     }
     
-    private void MockResultGenerator(byte[] result)
+    private void MockResultGenerator(int[] result)
     {
         _spinResultGeneratorMock.Setup(x => x.Generate())
             .Returns(result);

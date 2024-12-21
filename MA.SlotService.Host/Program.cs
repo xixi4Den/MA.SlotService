@@ -1,6 +1,7 @@
 using MA.SlotService.Api.Endpoints;
 using MA.SlotService.Application;
 using MA.SlotService.Infrastructure.DataAccess.Redis;
+using MA.SlotService.Infrastructure.Messaging;
 using MA.SlotService.Infrastructure.Randomization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices()
     .AddDataAccessServices(builder.Configuration)
-    .AddRandomizationServices();
+    .AddRandomizationServices()
+    .AddMessagingServices(builder.Configuration);
 
 var app = builder.Build();
 

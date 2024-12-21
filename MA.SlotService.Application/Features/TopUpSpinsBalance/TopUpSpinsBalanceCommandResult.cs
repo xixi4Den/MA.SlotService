@@ -1,3 +1,5 @@
+using MA.SlotService.Application.Exceptions;
+
 namespace MA.SlotService.Application.Features.TopUpSpinsBalance;
 
 public class TopUpSpinsBalanceCommandResult
@@ -20,5 +22,11 @@ public class TopUpSpinsBalanceCommandResult
     public static TopUpSpinsBalanceCommandResult ValidationError(string error)
     {
         return new TopUpSpinsBalanceCommandResult {Error = error};
+    }
+
+    public void ValidateThrow()
+    {
+        if (!IsSuccessful)
+            throw new BusinessException(Error!);
     }
 }

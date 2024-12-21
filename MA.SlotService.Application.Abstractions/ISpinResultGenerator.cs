@@ -2,5 +2,5 @@
 
 public interface ISpinResultGenerator
 {
-    byte[] Generate();
+    int[] Generate();
 }

@@ -20,14 +20,14 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        var redisConfiguration = AddRedisConfiguration(services, configuration);
+        var redisConfiguration = services.AddRedisConfiguration(configuration);
         services.AddSingleton<IConnectionMultiplexer>(sp =>
             ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
 
         return services;
     }
 
-    private static RedisConfiguration AddRedisConfiguration(IServiceCollection services, IConfiguration configuration)
+    private static RedisConfiguration AddRedisConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         var configurationSection = configuration.GetRequiredSection(RedisConfiguration.Key);
         services.AddOptions<RedisConfiguration>().Bind(configurationSection);
