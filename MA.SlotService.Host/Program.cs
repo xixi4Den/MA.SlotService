@@ -16,7 +16,8 @@ builder.Services.AddApplicationServices()
 
 var app = builder.Build();
 
-app.MapSlotEndpoints();
+app.MapSlotEndpoints()
+    .MapBalanceEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

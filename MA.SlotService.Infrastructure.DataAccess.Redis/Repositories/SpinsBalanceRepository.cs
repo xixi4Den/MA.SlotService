@@ -11,8 +11,30 @@ public class SpinsBalanceRepository: ISpinsBalanceRepository
     {
         _redis = redis;
     }
+
+    public async Task<long> Get(int userId)
+    {
+        var db = _redis.GetDatabase();
+        var key = GetKey(userId);
+
+        var balanceValue = await db.StringGetAsync(key);
+        
+        return balanceValue.TryParse(out long balance)
+            ? balance
+            : 0;
+    }
+
+    public async Task<long> Add(int userId, long amount)
+    {
+        var db = _redis.GetDatabase();
+        var key = GetKey(userId);
+        
+        var newBalance = await db.StringIncrementAsync(key, amount);
+
+        return newBalance;
+    }
     
-    public async Task<SpinsBalanceDeductionResult> TryDeductPoints(int userId)
+    public async Task<SpinsBalanceDeductionResult> TryDeduct(int userId)
     {
         var db = _redis.GetDatabase();
         var key = GetKey(userId);
