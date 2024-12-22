@@ -91,7 +91,7 @@ public class StartSpinCommandHandlerTests
 
     private void SetupDeductionResult(SpinsBalanceDeductionResult deductionResult)
     {
-        _spinsBalanceRepositoryMock.Setup(x => x.TryDeduct(It.IsAny<int>()))
+        _spinsBalanceRepositoryMock.Setup(x => x.TryDeductAsync(It.IsAny<int>()))
             .ReturnsAsync(deductionResult);
     }
     

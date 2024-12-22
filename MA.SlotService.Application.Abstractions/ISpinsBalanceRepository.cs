@@ -2,9 +2,10 @@ namespace MA.SlotService.Application.Abstractions;
 
 public interface ISpinsBalanceRepository
 {
-    Task<long> Get(int userId);
-    Task<long> Add(int userId, long amount);
-    Task<SpinsBalanceDeductionResult> TryDeduct(int userId);
+    Task<long> GetAsync(int userId);
+    Task<long> AddAsync(int userId, long amount, string referenceId);
+    Task<SpinsBalanceDeductionResult> TryDeductAsync(int userId);
+    Task<bool> ContainsReferenceIdAsync(string referenceId);
 }
 
 public record struct SpinsBalanceDeductionResult(bool IsSuccess, long NewBalance);

@@ -25,7 +25,7 @@ public static class BalanceTestEndpoints
         endpoints.MapPost("/api/balance/{amount}", async (
                 [FromHeader(Name = "UserId")] int userId, long amount, IMediator mediator) =>
             {
-                var command = new TopUpSpinsBalanceCommand(userId, amount);
+                var command = new TopUpSpinsBalanceCommand(userId, amount, $"test:{Guid.NewGuid()}");
                 var result = await mediator.Send(command);
 
                 return result.IsSuccessful

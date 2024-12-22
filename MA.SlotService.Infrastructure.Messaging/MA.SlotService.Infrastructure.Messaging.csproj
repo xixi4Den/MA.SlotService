@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DenisH.MA.RewardService.Contracts" Version="1.0.0-alpha.1" />
+      <PackageReference Include="DenisH.MA.RewardService.Contracts" Version="1.0.0-alpha.3" />
       <PackageReference Include="MassTransit" Version="8.3.4" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.4" />
     </ItemGroup>

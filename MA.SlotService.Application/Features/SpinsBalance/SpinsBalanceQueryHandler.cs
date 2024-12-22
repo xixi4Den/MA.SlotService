@@ -14,7 +14,7 @@ public class SpinsBalanceQueryHandler: IRequestHandler<SpinsBalanceQuery, long>
     
     public async Task<long> Handle(SpinsBalanceQuery request, CancellationToken cancellationToken)
     {
-        long result = await _repository.Get(request.UserId);
+        var result = await _repository.GetAsync(request.UserId);
 
         return result;
     }

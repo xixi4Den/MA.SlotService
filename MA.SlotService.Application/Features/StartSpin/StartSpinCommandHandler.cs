@@ -12,7 +12,7 @@ public class StartSpinCommandHandler(
 {
     public async Task<StartSpinCommandResult> Handle(StartSpinCommand request, CancellationToken ct)
     {
-        var deductionResult = await spinsBalanceRepository.TryDeduct(request.UserId);
+        var deductionResult = await spinsBalanceRepository.TryDeductAsync(request.UserId);
         if (!deductionResult.IsSuccess)
         {
             return StartSpinCommandResult.InsufficientBalance();
