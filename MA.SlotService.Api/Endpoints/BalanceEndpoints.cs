@@ -20,7 +20,7 @@ public static class BalanceTestEndpoints
         }).WithOpenApi()
         .WithTags("Balance")
         .WithSummary("Provides player's spins balance")
-        .Produces<SpinsBalanceResponse>();;
+        .Produces<SpinsBalanceResponse>();
 
         endpoints.MapPost("/api/balance/{amount}", async (
                 [FromHeader(Name = "UserId")] int userId, long amount, IMediator mediator) =>
