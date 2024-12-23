@@ -21,13 +21,13 @@ public static class SlotEndpoints
                         Result = result.Data.Result,
                         Balance = result.Balance
                     })
-                    : Results.BadRequest(result.Error);
+                    : Results.UnprocessableEntity(result.Error);
             }).WithOpenApi()
             .WithTags("Slot")
             .WithSummary("Handles the spinning action")
             .WithDescription("If a player has sufficient spins balance it deducts one spin point and generates a random result for the slot machine reels.")
             .Produces<SpinResultResponse>()
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status422UnprocessableEntity);
 
         return endpoints;
     }

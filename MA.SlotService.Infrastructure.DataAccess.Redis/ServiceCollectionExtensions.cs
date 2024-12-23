@@ -3,6 +3,7 @@ using MA.SlotService.Infrastructure.DataAccess.Redis.Configuration;
 using MA.SlotService.Infrastructure.DataAccess.Redis.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace MA.SlotService.Infrastructure.DataAccess.Redis;
@@ -20,19 +21,21 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        var redisConfiguration = services.AddRedisConfiguration(configuration);
+        AddRedisConfiguration(services, configuration);
         services.AddSingleton<IConnectionMultiplexer>(sp =>
-            ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
+        {
+            var redisConfig = sp.GetRequiredService<IOptions<RedisConfiguration>>();
+            return ConnectionMultiplexer.Connect(redisConfig.Value.ConnectionString);
+        });
 
         return services;
     }
 
-    private static RedisConfiguration AddRedisConfiguration(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddRedisConfiguration(IServiceCollection services, IConfiguration configuration)
     {
         var configurationSection = configuration.GetRequiredSection(RedisConfiguration.Key);
         services.AddOptions<RedisConfiguration>().Bind(configurationSection);
-        var result = configurationSection.Get<RedisConfiguration>();
-        
-        return result!;
+
+        return services;
     }
 }

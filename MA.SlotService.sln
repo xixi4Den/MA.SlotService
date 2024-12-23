@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MA.SlotService.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MA.SlotService.Contracts", "MA.SlotService.Contracts\MA.SlotService.Contracts.csproj", "{6C7B003B-7618-4587-AA5B-96353121AD2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MA.SlotService.IntegrationTests", "tests\MA.SlotService.IntegrationTests\MA.SlotService.IntegrationTests.csproj", "{6813AB88-92A0-4FF5-BD62-1D73C49B00E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,8 +64,13 @@ Global
 		{6C7B003B-7618-4587-AA5B-96353121AD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C7B003B-7618-4587-AA5B-96353121AD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C7B003B-7618-4587-AA5B-96353121AD2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6813AB88-92A0-4FF5-BD62-1D73C49B00E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6813AB88-92A0-4FF5-BD62-1D73C49B00E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6813AB88-92A0-4FF5-BD62-1D73C49B00E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6813AB88-92A0-4FF5-BD62-1D73C49B00E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{589D0333-9B5C-4377-8C81-1AD2B56B00EC} = {E39C8AB2-FF3E-450B-A9FE-0561EA81D938}
+		{6813AB88-92A0-4FF5-BD62-1D73C49B00E5} = {E39C8AB2-FF3E-450B-A9FE-0561EA81D938}
 	EndGlobalSection
 EndGlobal
