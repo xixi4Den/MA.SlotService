@@ -1,6 +1,7 @@
 # Slot service
 
-A service responsible for the slot machine logic. It allows players to spin as long as their spin balance is greater than zero. Each spin generates a random result consisting of three digits, each between 0 and 9.
+A service responsible for the slot machine logic. It allows players to spin as long as their spin balance is greater
+than zero. Each spin generates a random result consisting of three digits, each between 0 and 9.
 
 ---
 
@@ -9,6 +10,9 @@ A service responsible for the slot machine logic. It allows players to spin as l
 - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis)
 - [MassTransit](https://masstransit.io/)
+- [MediatR](https://github.com/jbogard/MediatR)
+- [TestContainers](https://dotnet.testcontainers.org/)
+- [OpenTelemetry](https://opentelemetry.io/)
 
 ---
 
@@ -41,21 +45,40 @@ A service responsible for the slot machine logic. It allows players to spin as l
 
 ## Configuration
 
-| Parameter Name          | Description                        | Mandatory | Example Value         |
-|-------------------------|------------------------------------|-----------|-----------------------|
-| Redis__ConnectionString | Redis connection string            | &#9745;   | localhost             |
-| Rabbit__Host            | RabbitMQ host                      | &#9745;   | localhost             |
-| Rabbit__Username        | RabbitMQ username                  | &#9745;   | guest                 |
-| Rabbit__Password        | RabbitMQ password                  | &#9745;   | guest                 |
+| Parameter Name          | Description                                         | Mandatory | Example Value                      |
+|-------------------------|-----------------------------------------------------|-----------|------------------------------------|
+| Redis__ConnectionString | Redis connection string                             | &#9745;   | localhost                          |
+| Rabbit__Host            | RabbitMQ host                                       | &#9745;   | localhost                          |
+| Rabbit__Username        | RabbitMQ username                                   | &#9745;   | guest                              |
+| Rabbit__Password        | RabbitMQ password                                   | &#9745;   | guest                              |
+| EXPORTER_OTLP_ENDPOINT  | OTLP endpoint. If not set, Console exporter is used | &#9744;   | http://127.0.0.1:9411/api/v2/spans |
 
 ---
 
 ## Tests
 
-### Unit tests
+This project includes both unit tests and integration tests.
+
+Run the following command to run all tests
 
 ```
 dotnet test
 ```
 
----
+### Integration tests
+
+Integration tests will run Redis instance in a container using [TestContainers](https://dotnet.testcontainers.org/), so ensure Docker is installed and running on your system.
+
+## Observability
+
+The service leverages OpenTelemetry to expose both traces and metrics.
+
+### Traces
+
+The service uses the OTLP exporter for traces if `EXPORTER_OTLP_ENDPOINT` env variable is set; otherwise, it defaults to the Console exporter.
+
+### Metrics
+
+Metrics are exposed using the Prometheus exporter. Scraping endpoint: https://localhost:7248/metrics
+
+
